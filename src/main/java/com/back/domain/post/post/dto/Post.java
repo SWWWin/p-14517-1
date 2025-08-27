@@ -1,6 +1,8 @@
 package com.back.domain.post.post.dto;
 
 import lombok.Data;
+import lombok.Getter;
+
 
 @Data
 public class Post {

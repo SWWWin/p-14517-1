@@ -19,4 +19,20 @@ public class PostService {
     public Post findById(int id) {
         return postRepository.findById(id);
     }
+
+    public int create(String title, String content) {
+        Post post = new Post();
+        post.setTitle(title);
+        post.setContent(content);
+        postRepository.create(post);
+        return post.getId();
+    }
+
+    public void createV2(String title, String content) {
+        postRepository.createV2(title, content);
+    }
+
+    public int getLastInsertId() {
+        return postRepository.getLastInsertId();
+    }
 }

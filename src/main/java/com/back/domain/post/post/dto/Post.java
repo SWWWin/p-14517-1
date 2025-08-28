@@ -3,6 +3,8 @@ package com.back.domain.post.post.dto;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
+
 
 @RequiredArgsConstructor
 @Data
@@ -11,6 +13,8 @@ public class Post {
     private String title;
     private String content;
 
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
     public Post(String title, String content) {
     }
 }

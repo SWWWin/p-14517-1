@@ -16,6 +16,7 @@ public class PostService {
         return postRepository.findAll();
     }
 
+
     public Post findById(int id) {
         return postRepository.findById(id);
     }
@@ -34,5 +35,27 @@ public class PostService {
 
     public int getLastInsertId() {
         return postRepository.getLastInsertId();
+    }
+
+    public void deleteById(int id) {
+        postRepository.deleteById(id);
+    }
+
+    public void update(int id, String title, String content) {
+        postRepository.update(id, title, content);
+    }
+
+    public List<Post> search(String title, String s) {
+        return postRepository.search(title, s);
+    }
+
+    public int deleteByIds(List<Object> ids) {
+        if(ids == null || ids.isEmpty()) return 0;
+
+        return postRepository.deleteByIds(ids);
+    }
+
+    public List<Post> findAllOrdered(String orderBy, String orderByDirection) {
+        return postRepository.findAllOrdered(orderBy, orderByDirection);
     }
 }

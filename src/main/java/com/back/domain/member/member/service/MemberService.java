@@ -47,4 +47,9 @@ public class MemberService {
     public List<Member> search(String username, String user1) {
         return memberRepository.search(username, user1);
     }
+
+    public int deleteByIds(List<Integer> list) {
+        memberRepository.deleteByIds(list);
+        return list.size();
+    }
 }

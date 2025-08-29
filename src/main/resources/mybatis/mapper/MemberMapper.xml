@@ -5,17 +5,22 @@
 
     <!--  전체 게시물 조회 -->
     <select id="findAll" resultType="Member">
-        SELECT * FROM member
+        SELECT *
+        FROM member
     </select>
 
     <!-- 단일 회원 조회(ID)-->
-    <select id = "findById" resultType="Member">
-        SELECT * FROM member where id = #{id}
+    <select id="findById" resultType="Member">
+        SELECT *
+        FROM member
+        where id = #{id}
     </select>
 
     <!-- 단일 회원 조회(username)-->
     <select id="findByUsername" resultType="Member">
-        SELECT * FROM member WHERE username = #{user2}
+        SELECT *
+        FROM member
+        WHERE username = #{user2}
     </select>
 
     <!-- 회원 생성 -->
@@ -23,15 +28,14 @@
         INSERT INTO member
         SET createDate = NOW(),
             modifyDate = NOW(),
-            username = #{username},
-            name = #{name},
-            password = #{password},
-            email = #{email}
+            username = #{username}, name = #{name}, password = #{password}, email = #{email}
     </insert>
 
     <!-- 회원 삭제 -->
     <delete id="deleteById">
-        DELETE FROM member WHERE id = #{id}
+        DELETE
+        FROM member
+        WHERE id = #{id}
     </delete>
 
     <!-- 회원 정보 전체 수정 -->
@@ -52,11 +56,40 @@
     </update>
 
 
-    <!-- 사용자 명으로 검색 -->
+    <!-- 사용자 명, 닉네임, 이메일으로 검색 -->
     <select id="search" resultType="Member">
         SELECT *
         FROM member
-        WHERE username LIKE CONCAT('%', #{kw}, '%')
+        <where>
+            <choose>
+                <when test="kwType == 'username'">
+                    username LIKE CONCAT('%', #{kw}, '%')
+                </when>
+                <when test="kwType == 'name'">
+                    name LIKE CONCAT('%', #{kw}, '%')
+                </when>
+                <when test="kwType == 'email'">
+                    email LIKE CONCAT('%', #{kw}, '%')
+                </when>
+                <otherwise>
+                    username LIKE CONCAT('%', #{kw}, '%')
+                    OR
+                    name LIKE CONCAT('%', #{kw}, '%')
+                    OR
+                    email LIKE CONCAT('%', #{kw}, '%')
+                </otherwise>
+            </choose>
+        </where>
     </select>
+
+
+    <!-- 다중 삭제 -->
+    <delete id="deleteByIds">
+        DELETE FROM member
+        WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

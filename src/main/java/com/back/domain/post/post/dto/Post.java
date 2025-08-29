@@ -13,8 +13,11 @@ public class Post {
     private String title;
     private String content;
 
+    private int memberId;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
+
+
     public Post(String title, String content) {
     }
 }

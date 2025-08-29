@@ -21,16 +21,17 @@ public class PostService {
         return postRepository.findById(id);
     }
 
-    public int create(String title, String content) {
+    public int create(String title, String content, int memberId) {
         Post post = new Post();
         post.setTitle(title);
         post.setContent(content);
+        post.setMemberId(memberId);
         postRepository.create(post);
         return post.getId();
     }
 
-    public void createV2(String title, String content) {
-        postRepository.createV2(title, content);
+    public void createV2(String title, String content, int memberId) {
+        postRepository.createV2(title, content, memberId);
     }
 
     public int getLastInsertId() {
@@ -57,5 +58,13 @@ public class PostService {
 
     public List<Post> findAllOrdered(String orderBy, String orderByDirection) {
         return postRepository.findAllOrdered(orderBy, orderByDirection);
+    }
+
+    public Post findByIdWithAuthorName(int id) {
+        return postRepository.findByIdWithAuthorName(id);
+    }
+
+    public List<Post> searchWithAuthorName(String kwType, String kw) {
+        return postRepository.searchWithAuthorName(kwType, kw);
     }
 }

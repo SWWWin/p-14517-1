@@ -21,7 +21,7 @@ public interface PostRepository {
     int create(Post post);
 
 
-    int createV2(String title, String content);
+    int createV2(String title, String content, int memberId);
 
     int getLastInsertId();
 
@@ -32,9 +32,13 @@ public interface PostRepository {
                 @Param("content") String content);
 
 
-    List<Post> search(@Param("column") String column, @Param("keyword") String keyword);
+    List<Post> search(@Param("kwType") String kwType,
+                      @Param("kw") String kw);
 
     int deleteByIds(@Param("ids") List<Object> ids);
 
 
+    Post findByIdWithAuthorName(int id);
+
+    List<Post> searchWithAuthorName(String kwType, String kw);
 }

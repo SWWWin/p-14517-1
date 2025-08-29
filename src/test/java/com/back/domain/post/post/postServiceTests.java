@@ -44,11 +44,12 @@ public class postServiceTests {
     @Test
     @DisplayName("게시물 생성")
     void t3() {
-        int id = postService.create("제목 3", "내용 3");
+        int id = postService.create("제목 3", "내용 3", 2);
 
         Post post = postService.findById(id);
         assertThat(post.getTitle()).isEqualTo("제목 3");
         assertThat(post.getContent()).isEqualTo("내용 3");
+        assertThat(post.getMemberId()).isEqualTo(2);
     }
 
     @Transactional
@@ -56,7 +57,7 @@ public class postServiceTests {
     @DisplayName("게시물 생성")
     void t4() {
         //when: 게시글 작성
-        postService.createV2("제목 3", "내용 3");
+        postService.createV2("제목 3", "내용 3", 2);
 
         //then: 해당 id의 게시글 불러오기
         int id = postService.getLastInsertId();
@@ -171,7 +172,7 @@ public class postServiceTests {
     @Test
     @DisplayName("정렬된 게시물 조회 - 생성일 내림차순")
     void t12() {
-        postService.create("제목 0", "내용 0");
+        postService.create("제목 0", "내용 0", 1);
         List<Post> posts = postService.findAllOrdered("createDate", "desc");
         assertThat(posts).hasSize(3);
 
@@ -201,8 +202,8 @@ public class postServiceTests {
     @DisplayName("다중 개시물 삭제")
     void t14() {
         // given: 추가 게시물 생성
-        int id3 =  postService.create("제목 3", "내용 3");
-        int id4 = postService.create("제목 4", "내용 4");
+        int id3 =  postService.create("제목 3", "내용 3", 1);
+        int id4 = postService.create("제목 4", "내용 4", 2);
         List<Post> addPosts = postService.findAll();
         assertThat(addPosts).hasSize(4);
 
@@ -215,7 +216,31 @@ public class postServiceTests {
         assertThat(posts).hasSize(2);
     }
 
+    // 테스트 코드
+    @Test
+    @DisplayName("작성자 이름 포함 조회 테스트")
+    void t15() {
+        // given
+        Post post = postService.findByIdWithAuthorName(1);
+        System.out.println(post);
 
+        // then
+        assertThat(post.getTitle()).isEqualTo("제목 1");
+        assertThat(post.getMemberId()).isEqualTo(1);
+
+    }
+
+
+    @Test
+    @DisplayName("작성자 이름으로 검색")
+    void t16() {
+        // when
+        List<Post> posts = postService.searchWithAuthorName("author", "유저1");
+
+        // then
+        assertThat(posts).hasSize(1);
+        assertThat(posts.get(0).getTitle()).isEqualTo("제목 1");
+    }
 
 
 }

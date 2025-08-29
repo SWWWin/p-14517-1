@@ -12,6 +12,7 @@ public class Member {
     private String name;
     private String email;
 
+
     private LocalDateTime createDate;
-    private LocalDateTime updateDate;
+    private LocalDateTime modifyDate;
 }

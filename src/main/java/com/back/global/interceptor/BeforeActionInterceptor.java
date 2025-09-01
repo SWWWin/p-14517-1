@@ -1,20 +1,25 @@
 package com.back.global.interceptor;
 
+import com.back.global.Rq.Rq;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class BeforeActionInterceptor implements HandlerInterceptor {
+
+    private final Rq rq;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println(11);
         log.debug("BeforeActionInterceptor::perHandle 실행됨");
-        log.info("info");
+
+        log.info(rq.getCurrentUrl());
         log.warn("warn");
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }

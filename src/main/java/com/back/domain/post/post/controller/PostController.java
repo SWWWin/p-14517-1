@@ -1,6 +1,7 @@
 package com.back.domain.post.post.controller;
 
 import com.back.domain.post.post.service.PostService;
+import com.back.global.Rq.Rq;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class PostController {
     private final PostService postService;
+    private final Rq rq;
 
     @GetMapping("/list")
     public String list() {
+        System.out.println("list: " + rq.getCurrentUrl());
         return "post/post/list";
     }
 

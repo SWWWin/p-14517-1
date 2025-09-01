@@ -20,10 +20,7 @@ public class NeedToLoginInterceptor implements HandlerInterceptor {
 
         log.debug("BeforeActionInterceptor::perHandle 실행됨");
 
-        rq.increateCount();
-        log.debug("""
-                rq: %s, rq.count: %s
-                """.formatted(rq,rq.getCount()));
+
         HttpSession session = request.getSession();
         Integer loginedMemberId = (Integer) session.getAttribute("loginedMemberId");
 

@@ -26,7 +26,7 @@ public class MemberController {
 
     @PostMapping("/login")
     @ResponseBody
-    public String login(String username, String password, HttpSession session) {
+    public String login(String username, String password) {
         Member member = memberService.findByUsername(username);
 
         // TODO: 존재하는 회원인지 검증
@@ -38,9 +38,7 @@ public class MemberController {
         if(member.matchpassword(password) == false) {
             return "비밀번호가 일치하지 않습니다.";
         }
-        rq.setName(member.getName());
-        session.setAttribute("loginedMemberId", member.getId());
-
+        rq.setLoginDone(member);
 
 
         return "로그인 처리";
@@ -48,9 +46,9 @@ public class MemberController {
 
     @GetMapping("/logout")
     @ResponseBody
-    public String logout(HttpSession session) {
-        rq.setName("로그아웃됨");
-        session.removeAttribute("loginedMemberId");
+    public String logout() {
+        rq.setLogoutDone();
+
         return "로그아웃 처리";
     }
 

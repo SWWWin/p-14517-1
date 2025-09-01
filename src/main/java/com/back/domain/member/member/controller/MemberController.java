@@ -38,6 +38,7 @@ public class MemberController {
         if(member.matchpassword(password) == false) {
             return "비밀번호가 일치하지 않습니다.";
         }
+        rq.setName(member.getName());
         session.setAttribute("loginedMemberId", member.getId());
 
 
@@ -48,8 +49,8 @@ public class MemberController {
     @GetMapping("/logout")
     @ResponseBody
     public String logout(HttpSession session) {
+        rq.setName("로그아웃됨");
         session.removeAttribute("loginedMemberId");
-
         return "로그아웃 처리";
     }
 

@@ -7,19 +7,15 @@ import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.context.annotation.RequestScope;
-import org.springframework.web.context.annotation.SessionScope;
 
-@RequestScope
 @Component
+@RequestScope
 @RequiredArgsConstructor
 public class Rq {
-    private final HttpServletResponse response;
-    private final HttpServletRequest request;
+    private final HttpServletRequest req;
+    private final HttpServletResponse resp;
     private final HttpSession session;
 
     @Getter
@@ -33,67 +29,58 @@ public class Rq {
         return count++;
     }
 
-
     public String getCurrentUrl() {
-        String url = request.getRequestURL().toString();
-        String queryString = request.getQueryString();
+        String url = req.getRequestURL().toString();
+        String queryString = req.getQueryString();
 
-        if(queryString != null && queryString.length() > 0) {
+        if (queryString != null && queryString.length() > 0) {
             return url + "?" + queryString;
         }
 
         return url;
     }
 
+    public String getLoginedMemberName() {
+        return (String) session.getAttribute("loginedMemberName");
+    }
+
     public void setLoginDone(Member member) {
-        session.setAttribute("loginedMemberId", member.getId());
-        session.setAttribute("loginedmemberUsername", member.getUsername());
-        session.setAttribute("loginedmemberEmail", member.getEmail());
-        session.setAttribute("loginedmemberName", member.getName());
+        session.setAttribute("loginedMemerId", member.getId());
+        session.setAttribute("loginedMemberUsername", member.getUsername());
+        session.setAttribute("loginedMemberName", member.getName());
+        session.setAttribute("loginedMemberEmail", member.getEmail());
     }
-    public boolean isLogout() {
-        return isLogined() == false;
+
+    public void setLogoutDone() {
+        session.removeAttribute("loginedMemerId");
+        session.removeAttribute("loginedMemberUsername");
+        session.removeAttribute("loginedMemberName");
+        session.removeAttribute("loginedMemberEmail");
     }
+
+    public int getLoginedMemberId() {
+        return (Integer) session.getAttribute("loginedMemberId");
+    }
+
     public boolean isLogined() {
         return getLoginedMemberId() > 0;
     }
 
-    public int getLoginedMemberId() {
-        Integer loginedMemberId = (Integer)session.getAttribute("loginedMemberId");
-        if(loginedMemberId == null) {
-            return 0;
-        }
-        return loginedMemberId;
-    }
-
-    public String getLoginedmemberUsername() {
-        return (String) session.getAttribute("loginedmemberUsername");
-    }
-
-    public String getLoginedmemberEmail() {
-        return (String) session.getAttribute("loginedmemberEmail");
-    }
-
-
-    private String getLoginedMemberName() {
-        return (String) session.getAttribute("loginedmemberName");
+    public boolean isLogout() {
+        return isLogined() == false;
     }
 
     public Member getLoginedMember() {
-        int id = getLoginedMemberId();
-        String username = getLoginedmemberUsername();
-        String name = getLoginedMemberName();
-        String email = getLoginedmemberEmail();
+        if (isLogout()) {
+            return null;
+        }
 
-         return new Member(id, username, name, email);
+        Member member = new Member();
+        member.setId(getLoginedMemberId());
+        member.setUsername((String) session.getAttribute("loginedMemberUsername"));
+        member.setName((String) session.getAttribute("loginedMemberName"));
+        member.setEmail((String) session.getAttribute("loginedMemberEmail"));
+
+        return member;
     }
-
-    public void setLogoutDone() {
-        session.removeAttribute("loginedMemberId");
-        session.removeAttribute("loginedmemberUsername");
-        session.removeAttribute("loginedmemberEmail");
-        session.removeAttribute("loginedmemberName");
-    }
-
-
 }

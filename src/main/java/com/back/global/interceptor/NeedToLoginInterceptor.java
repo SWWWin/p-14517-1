@@ -11,13 +11,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 @Slf4j
-@RequiredArgsConstructor
 public class NeedToLoginInterceptor implements HandlerInterceptor {
-    private final Rq rq;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.debug("this: " + this);
-
         log.debug("BeforeActionInterceptor::perHandle 실행됨");
 
 

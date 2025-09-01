@@ -19,7 +19,7 @@ public class PostController {
 
     @GetMapping("/list")
     public String list() {
-        rq.increaseCount();
+        System.out.println("list : " + rq.getCurrentUrl());
         return "post/post/list";
     }
 

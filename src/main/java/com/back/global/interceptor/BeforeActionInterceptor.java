@@ -20,7 +20,8 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
         log.debug("BeforeActionInterceptor::perHandle 실행됨");
 
 
-        log.warn("warn");
+        log.info(rq.getCurrentUrl());
+
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 }

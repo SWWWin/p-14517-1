@@ -19,7 +19,7 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.debug("BeforeActionInterceptor::perHandle 실행됨");
 
-        log.info(rq.getCurrentUrl());
+
         log.warn("warn");
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }

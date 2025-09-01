@@ -34,7 +34,10 @@ public class MemberController {
             return "존재하지 않는 회원입니다.";
         }
 
-        // TODO: 비밀번호 일치 여부 검증
+        //TODO: 비밀번호 일치 검증
+        if(member.matchpassword(password) == false) {
+            return "비밀번호가 일치하지 않습니다.";
+        }
         session.setAttribute("loginedMemberId", member.getId());
 
 
